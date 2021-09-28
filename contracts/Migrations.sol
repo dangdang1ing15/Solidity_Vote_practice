@@ -49,4 +49,46 @@ contract Votes {
     require(workflowStatus == WorkflowStatus.ProposalsRegistrationEnded, "this function can be called only during proposlas registration");
     _;
   }
+
+  event VoterRegisteredEvent (address voterAddress);
+  event ProposalsRegistrationStartedEvent ();
+  event ProposalsRegistrationEndedEvent ();
+  event ProposalRegisteredEvent (uint proposalId);
+  event VotingSessionStartedEvent ();
+  event VotingSessionEndedEvent ();
+  event VotedEvent (address voter, uint proposalId);
+  event VotesTalliedEvent ();
+
+  event WorkflowStatusChangeEvent(
+    WorkflowStatus previousStatus,
+    WorkflowStatus newStatus
+  );
+
+  constructor() public {
+    administrator = msg.sender;
+    workflowStatus = WorkflowStatus.RegisteringVoters;
+  }
+
+  function registerVoter(){}
+
+  function startProposalRegistration(){}
+  
+  function endProposalRegistration(){}
+
+  function registerProposal(){}
+
+  function vote(){}
+
+  function tallyVotes(){}
+
+  function getProposalNumber(){}
+
+  function getWinningProposalId(){}
+  
+  function isRegisteredVoter(){}
+
+  function isAdmin(){}
+  
+  function getWorkflowStatus(){}
+  
 }
