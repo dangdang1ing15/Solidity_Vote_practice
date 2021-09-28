@@ -1,19 +1,52 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-contract Migrations {
-  address public owner = msg.sender;
-  uint public last_completed_migration;
+contract Votes {
+  struct Proposal{
+    string description;
+    uint voteCount;
+  }
 
-  modifier restricted() {
-    require(
-      msg.sender == owner,
-      "This function is restricted to the contract's owner"
-    );
+  struct Voter {
+    bool isRegistered;
+    bool hasVoted;
+    uint votedProposalId;
+  }
+
+  enum WorkflowStatus{
+    RegisteringVoters,
+    ProposalsRegistrationStarted,
+    ProposalsRegistrationEnded,
+    VotingSessionStarted,
+    VotingSessionEnded,
+    VotesTallied
+  }
+
+  address public administrator;
+  
+  WorkflowStatus public workflowStatus;
+  mapping(address => Voter) public voters;
+  Proposal[] public proposals;
+
+  uint private winningProposalId;
+
+  modifier onlyAdministrator() {
+    require(msg.sender == administrator, "the caller of this function must be the administrator");
     _;
   }
 
-  function setCompleted(uint completed) public restricted {
-    last_completed_migration = completed;
+  modifier onlyRegisteredVoter() {
+    require(voters[msg.sender].isRegistered, "the caller of this function must be the voter");
+    _;
+  }
+
+  modifier onlyDuringVotersRegistration(){
+    require(workflowStatus == WorkflowStatus.RegisteringVoters, "this function can be called only before proposals registration has started");
+    _;
+  }
+
+  modifier onlyDuringProposalRegistration(){
+    require(workflowStatus == WorkflowStatus.ProposalsRegistrationEnded, "this function can be called only during proposlas registration");
+    _;
   }
 }
