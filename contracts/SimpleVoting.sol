@@ -108,7 +108,7 @@ contract SimpleVoting {
         WorkflowStatus newStatus
     );
 
-    constructor() public {
+    constructor() {
         administrator = msg.sender;
         workflowStatus = WorkflowStatus.RegisteringVoters;
     }
