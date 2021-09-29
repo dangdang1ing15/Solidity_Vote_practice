@@ -86,7 +86,7 @@ contract SimpleVoting {
         _;
     }
 
-    modifier onlyAfterVotesTailed() {
+    modifier onlyAfterVotesTallied() {
         require(
             workflowStatus == WorkflowStatus.VotesTallied,
             "this function can be called only after votes have been tallied"
@@ -175,7 +175,7 @@ contract SimpleVoting {
     {
         require(!voters[msg.sender].hasVoted, "The caller has already voted");
 
-        voters[msg.sender].hasvoted = true;
+        voters[msg.sender].hasVoted = true;
         voters[msg.sender].votedProposalId = proposalId;
 
         proposals[proposalId].voteCount += 1;
@@ -195,7 +195,7 @@ contract SimpleVoting {
         }
 
         winningProposalId = winningProposalIndex;
-        workflowStatus = workflowStatus.VotesTallied;
+        workflowStatus = WorkflowStatus.VotesTallied;
         emit VotesTalliedEvent();
         emit WorkflowStatusChangeEvent(
             WorkflowStatus.VotingSessionEnded,
@@ -218,7 +218,7 @@ contract SimpleVoting {
     function getWinningProposalId()
         public
         view
-        onlyAfterVotesTailed
+        onlyAfterVotesTallied
         returns (uint256)
     {
         return winningProposalId;
@@ -227,7 +227,7 @@ contract SimpleVoting {
     function getWinningProposalDescription()
         public
         view
-        onlyAfterVotesTailed
+        onlyAfterVotesTallied
         returns (string memory)
     {
         return proposals[winningProposalId].description;
@@ -236,7 +236,7 @@ contract SimpleVoting {
     function getWinningProposalVoteCounts()
         public
         view
-        onlyAfterVotesTailed
+        onlyAfterVotesTallied
         returns (uint256)
     {
         return proposals[winningProposalId].voteCount;
