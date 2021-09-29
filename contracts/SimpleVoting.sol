@@ -156,7 +156,7 @@ contract SimpleVoting {
         );
     }
 
-    function registerProposal(string proposalDescription)
+    function registerProposal(string memory proposalDescription)
         public
         onlyRegisteredVoter
         onlyDuringVotersRegistration
@@ -210,7 +210,7 @@ contract SimpleVoting {
     function getProposalDescription(uint256 index)
         public
         view
-        returns (string)
+        returns (string memory)
     {
         return proposals[index].description;
     }
@@ -228,7 +228,7 @@ contract SimpleVoting {
         public
         view
         onlyAfterVotesTailed
-        returns (string)
+        returns (string memory)
     {
         return proposals[winningProposalId].description;
     }
